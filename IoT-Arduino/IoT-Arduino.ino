@@ -1,14 +1,16 @@
-# Ifdef ARDUINO_ARCH_ESP32
-# include  < WiFi.h >
-# include  < WiFiMulti.h >
+# ifdef ARDUINO_ARCH_ESP32
+#include <WiFi.h>
+#include <WiFiMulti.h>
 WiFiMulti wifiMulti;
 # else
-# include  < ESP8266WiFi.h >
-# include  < ESP8266WiFiMulti.h >
+#include <ESP8266WiFi.h>
+#include <ESP8266WiFiMulti.h>
+
 ESP8266WiFiMulti wifiMulti;
+
 # endif
 
-int LedIndicador = 2;
+int LedIndicador = 4;
 int Led = 14;
 int Boton = 0;
 boolean EstadoBoton = false;
@@ -18,19 +20,19 @@ void setup() {
   delay(10);
   Serial.println("Iniciando Sistema");
   pinMode(LedIndicador, OUTPUT);
-  pinMode(led, OUTPUT);
+  pinMode(Led, OUTPUT);
   pinMode(Boton, INPUT);
-  wifiMulti.addAP("edward", "lokysan777");
-  wifiMulti.addAP("edward", "Lokysan777");
-  Conectado();
+  wifiMulti.addAP("edward","lokysan777");
+  
+  Conectando();
 }
   
 void loop() {
   if(wifiMulti.run() != WL_CONNECTED){
-  Conectado();
+  Conectando();
   }
   ActualizarLed();
-  Actualizarboton();
+  ActualizarBoton();
 }
 void ActualizarLed(){
    if(EstadoBoton){
@@ -41,7 +43,7 @@ void ActualizarLed(){
 }
 
 void ActualizarBoton(){
-  if(digitalRead(Boton) == 1){
+  if(digitalRead(Boton) == 0){
     EstadoBoton = !EstadoBoton;
     delay(500);
     }
@@ -49,9 +51,9 @@ void ActualizarBoton(){
 
 void Conectando(){
   if (wifiMulti.run() != WL_CONNECTED) {
-    digitalWrite(LedIndicador, 0);
+    digitalWrite(Led, 0);
     delay(2000);
-    digitalWrite(LedIndicador, 1);
+    digitalWrite(Led, 1);
     delay(2000);
   } else {
     

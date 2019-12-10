@@ -59,16 +59,12 @@ function setup() {
 function ApagarLed(){
 	console.log("Apagar Led");
 	
-    message = new Paho.MQTT.Message("0");
-    message.destinationName = "/Jehingson/Led";
-    client.send(message);
+   
 }
 function ActivarLed(){
 	console.log("Activar Led");
 
-	message = new Paho.MQTT.Message("1");
-    message.destinationName = "/Jehingson/Led";
-    client.send(message);
+	
 }
 
 function draw() {

@@ -67,7 +67,7 @@ function ActivarLed(){
 	console.log("Activar Led");
 
 	message = new Paho.MQTT.Message("1");
-    message.destinationName = "/Arduino-IOT/Led";
+    message.destinationName = "/Jehingson/Led";
     client.send(message);
 }
 

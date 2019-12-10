@@ -10,10 +10,17 @@ ESP8266WiFiMulti wifiMulti;
 
 # endif
 
+#include <MQTT.h>
+
+WiFiClient net;
+MQTTClient client;
+
+long TiempoPasado = 0;
 int LedIndicador = 4;
 int Led = 14;
 int Boton = 0;
 boolean EstadoBoton = false;
+boolean EstadoLed = false;
 
 void setup() {
   Serial.begin(115200);
@@ -23,40 +30,75 @@ void setup() {
   pinMode(Led, OUTPUT);
   pinMode(Boton, INPUT);
   wifiMulti.addAP("edward","lokysan777");
+
+  client.begin("broker.shiftr.io", net);
+  client.onMessage(RecibirMensaje);
   
   Conectando();
 }
   
 void loop() {
-  if(wifiMulti.run() != WL_CONNECTED){
+  client.loop();
+  delay(10);
+  
+  if (!client.connected()){
   Conectando();
   }
   ActualizarLed();
   ActualizarBoton();
+  MandarData();
+
+}
+void MandarData(){
+if(millis() > TiempoPasado + 500){
+   String Mensaje = String(EstadoBoton);
+   client.publish("/Jehingson/Boton", Mensaje);
+   TiempoPasado = millis();
+}
 }
 void ActualizarLed(){
-   if(EstadoBoton){
+   if(EstadoLed){
     digitalWrite(Led, 1);
-    }else{
+    }
+    else{
       digitalWrite(Led, 0);
-      }
+  }
 }
 
 void ActualizarBoton(){
   if(digitalRead(Boton) == 0){
     EstadoBoton = !EstadoBoton;
-    delay(500);
+    Serial.println("Se presiono el boton");
+    delay(200);
     }
 }
 
 void Conectando(){
-  if (wifiMulti.run() != WL_CONNECTED) {
-    digitalWrite(Led, 0);
+  while (wifiMulti.run() != WL_CONNECTED){
+    digitalWrite(LedIndicador, 0);
     delay(2000);
-    digitalWrite(Led, 1);
+    digitalWrite(LedIndicador, 1);
     delay(2000);
-  } else {
-    
-    Serial.println("conectado wifi");    
+    Serial.println(".");
   }
+   while(!client.connect("Arduino-IOT", "d09f357f", "2bbb49cb0c48832c")){
+   digitalWrite(LedIndicador, 0);
+    delay(500);
+    digitalWrite(LedIndicador, 1);
+    delay(500);
+    Serial.println("*");
+  }
+  Serial.println("Conectado MQTT");
+  client.subscribe("/Grafico/Led");  
 }
+  
+
+void RecibirMensaje(String &topic, String &payload){
+  Serial.println("incoming: " + topic + " - " + payload);
+  if(payload == "1"){
+    EstadoLed = true;
+}
+else{
+    EstadoLed = false;
+}
+} 

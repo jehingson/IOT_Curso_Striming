@@ -32,7 +32,7 @@ function MQTTMensaje(message) {
   let Mensaje = message.payloadString;
   if((Mensaje == '1') == true ){
   	EstadoFondo = true;
-  	console.log("Encendiendo Fondo")
+  	console.log("Encendiendo Fondo");
   }else{
     EstadoFondo = false;
 }

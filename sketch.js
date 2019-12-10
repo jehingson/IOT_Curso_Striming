@@ -3,7 +3,7 @@ let BotonActivar;
 let BotonApagar;
 let EstadoFondo = false;
 
-var client = mqtt.connect('wss://d09f357f:2bbb49cb0c48832c@broker.shiftr.io', {
+var client = mqtt.connect('wss://Jehingson:23548522Unetc@broker.shiftr.io', {
   clientId: 'Arduino-esp8266'
 });
 

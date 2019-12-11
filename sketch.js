@@ -30,7 +30,7 @@ function MQTTPerder(responseObject) {
 function MQTTMensaje(message) {
   console.log("Mensaje recibido:" + message.payloadString);
   let Mensaje = message.payloadString;
-  if((Mensaje == '1') == true ){
+  if((Mensaje == '1') ){
   	EstadoFondo = true;
   	console.log("Encendiendo Fondo");
   }else{
@@ -72,7 +72,7 @@ function draw() {
     background(0);
 
   } else {
-    background(255);
+    background(150);
   
 }
  }

@@ -36,7 +36,7 @@ function MQTTMensaje(message) {
   }else{
     EstadoFondo = false;
 }
-}
+}	
 
 
 function CuandoConectadoMQTT() {

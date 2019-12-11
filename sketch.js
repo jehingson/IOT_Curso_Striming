@@ -7,7 +7,7 @@ let EstadoFondo = false;
 
 let BrokerMQTT = 'broker.shiftr.io';
 let PuertoMQTT = 80;
-let ClienteIDMQTT = "MQTT-P5";
+let ClienteIDMQTT = "Pagina-" + Math.floor(Math.random()*1000);
 let UsuarioMQTT = "d09f357f";
 let ContrasenaMQTT = "2bbb49cb0c48832c";
 
@@ -30,7 +30,7 @@ function MQTTPerder(responseObject) {
 function MQTTMensaje(message) {
   console.log("Mensaje recibido:" + message.payloadString);
   let Mensaje = message.payloadString;
-  if((Mensaje == '1') ){
+  if(Mensaje == '1'){
   	EstadoFondo = true;
   	console.log("Encendiendo Fondo");
   }else{
@@ -52,7 +52,7 @@ function setup() {
   BotonActivar = createButton('Activar Led');
   BotonApagar = createButton('Apagar Led');
   BotonActivar.mousePressed(ApagarLed);
-  BotonApagar.mousePressed(ActivarLed);
+   BotonApagar.mousePressed(ActivarLed);
   
 }
 

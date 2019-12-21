@@ -16,8 +16,8 @@ WiFiClient net;
 MQTTClient client;
 
 long TiempoPasado = 0;
-int LedIndicador = D4;
-int Led = 12;
+int LedIndicador = 4;
+int Led = 14;
 int Boton = 0;
 boolean EstadoBoton = false;
 boolean EstadoLed = false;
@@ -52,7 +52,6 @@ void loop() {
 void MandarData(){
 if(millis() > TiempoPasado + 500){
    String Mensaje = String(EstadoBoton);
-   client.publish("/Jehingson/Led", Mensaje);
    client.publish("/Jehingson/Boton", Mensaje);
    TiempoPasado = millis();
 }
@@ -82,7 +81,7 @@ void Conectando(){
     delay(2000);
     Serial.println(".");
   }
-   while(!client.connect("esp8266", "d09f357f", "2bbb49cb0c48832c")){
+   while(!client.connect("Arduino-IOT", "d09f357f", "2bbb49cb0c48832c")){
    digitalWrite(LedIndicador, 0);
     delay(500);
     digitalWrite(LedIndicador, 1);
@@ -90,8 +89,7 @@ void Conectando(){
     Serial.println("*");
   }
   Serial.println("Conectado MQTT");
-  client.subscribe("/Jehingson/Led");  
-  client.subscribe("/Jehingson/Boton"); 
+  client.subscribe("/Grafico/Led");  
 }
   
 

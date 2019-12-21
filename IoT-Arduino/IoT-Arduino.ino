@@ -53,7 +53,6 @@ void MandarData(){
 if(millis() > TiempoPasado + 500){
    String Mensaje = String(EstadoBoton);
    client.publish("/Jehingson/Led", Mensaje);
-   client.publish("/Jehingson/Boton", Mensaje);
    TiempoPasado = millis();
 }
 }
@@ -90,8 +89,7 @@ void Conectando(){
     Serial.println("*");
   }
   Serial.println("Conectado MQTT");
-  client.subscribe("/Jehingson/Led");  
-  client.subscribe("/Jehingson/Boton"); 
+  client.subscribe("/Jehingson/Boton");  
 }
   
 

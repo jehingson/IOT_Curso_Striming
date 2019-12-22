@@ -52,7 +52,7 @@ void loop() {
 void MandarData(){
 if(millis() > TiempoPasado + 500){
    String Mensaje = String(EstadoBoton);
-   client.publish("/Jehingson/Led", Mensaje);
+   client.publish("/Jehingson/Boton", Mensaje);
    TiempoPasado = millis();
 }
 }
@@ -69,7 +69,7 @@ void ActualizarBoton(){
   if(digitalRead(Boton) == 0){
     EstadoBoton = !EstadoBoton;
     Serial.println("Se presiono el boton");
-    delay(200);
+    delay(10);
     }
 }
 
@@ -89,7 +89,8 @@ void Conectando(){
     Serial.println("*");
   }
   Serial.println("Conectado MQTT");
-  client.subscribe("/Jehingson/Boton");  
+  client.subscribe("/Jehingson/Led");  
+   
 }
   
 
@@ -97,8 +98,7 @@ void RecibirMensaje(String &topic, String &payload){
   Serial.println("incoming: " + topic + " - " + payload);
   if(payload == "1"){
     EstadoLed = true;
-}
-else{
+}else if(payload == "0"){
     EstadoLed = false;
 }
 } 
